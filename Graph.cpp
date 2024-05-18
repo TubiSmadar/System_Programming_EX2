@@ -1,3 +1,7 @@
+/*
+315638577
+gunslokij@gmail.com
+*/
 #include "Graph.hpp"
 #include <iostream>
 
