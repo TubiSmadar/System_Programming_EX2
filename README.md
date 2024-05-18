@@ -1,5 +1,145 @@
+# Graph Class Implementation and Testing
 
-//TODO
+This repository contains the implementation of a `Graph` class in C++ along with unit tests for various operator overloads. The `Graph` class supports operations such as addition, subtraction, multiplication, increment, and comparison between graphs.
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Graph Class](#graph-class)
+- [Operator Overloads](#operator-overloads)
+- [Unit Tests](#unit-tests)
+- [License](#license)
+
+## Installation
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/TubiSmadar/System_Programming_EX2.git
+    cd System_Programming_EX2
+    ```
+
+2. Ensure you have a C++ compiler installed (e.g., `clang++`) and the doctest testing framework.
+
+## Usage
+
+### Building the Project
+
+To compile the project, use the following command:
+```sh
+make
+```
+
+This will compile the source files and create the `demo` and `test` executables.
+
+### Running the Tests
+
+To run the unit tests, execute the following command:
+```sh
+make test
+./test
+```
+
+### Memory Check with Valgrind
+
+To check for memory leaks using Valgrind, use the following command:
+```sh
+make valgrind
+```
+
+### Cleaning the Build
+
+To clean the build directory, use the following command:
+```sh
+make clean
+```
+
+## Graph Class
+
+The `Graph` class represents a graph using an adjacency matrix. Here is a brief overview of its features:
+
+- Load a graph from a 2D vector.
+- Overloaded operators for graph manipulation and comparison.
+- Output operator to display the graph's adjacency matrix.
+
+### Example
+
+```cpp
+#include "Graph.hpp"
+
+int main() {
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}
+    };
+    g.loadGraph(graph);
+    std::cout << g;
+    return 0;
+}
+```
+
+## Operator Overloads
+
+The `Graph` class supports the following operator overloads:
+
+- Unary operators: `+` (copy), `-` (negate).
+- Binary operators: `+` (addition), `-` (subtraction), `*` (multiplication).
+- Compound assignment operators: `+=`, `-=`.
+- Increment and decrement operators: `++` (prefix and postfix), `--` (prefix and postfix).
+- Comparison operators: `>`, `<`, `>=`, `<=`, `==`, `!=`.
+- Output operator: `<<` to print the adjacency matrix.
+
+## Unit Tests
+
+Unit tests are written using the Catch2 framework. The tests cover:
+
+- Comparison operators: `>`, `<`, `>=`, `<=`, `==`, `!=`.
+- Increment and decrement operators: `++`, `--`.
+- Multiplication operators: `*`.
+- Output operator: `<<`.
+
+### Example Test
+
+```cpp
+TEST_CASE("Test >,<,>=,<=,==,!= operators")
+{
+    ariel::Graph g1, g2, g3;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    vector<vector<int>> graph3 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+
+    g1.loadGraph(graph1);
+    g2.loadGraph(graph2);
+    g3.loadGraph(graph3);
+
+    CHECK((g1 < g2) == true);  
+    CHECK((g1 > g2) == false);
+    CHECK((g1 <= g2) == true);
+    CHECK((g1 >= g2) == false);
+    CHECK((g1 == g3) == true);  
+    CHECK((g1 != g2) == true);  
+}
+```
+
+
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
+
+
 # מטלה 2 - גרפים והעמסת אופרטורים
 
 במטלה הקודמת מימשתם את המחלקה `Graph.cpp` המאפשרת ייצוג של גרפים בעזרת מטריצת שכנויות. במטלה הזאת, אתם תרחיבו את המחלקה ותוסיפו תמיכה באופרטורים חשבוניים על גרפים.
