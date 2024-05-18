@@ -164,19 +164,144 @@ TEST_CASE("Test -() operator")
 
 TEST_CASE("Test >,<,>=,<=,==,!= operators")
 {
-    //TODO
+    ariel::Graph g1, g2, g3;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    vector<vector<int>> graph3 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+
+    g1.loadGraph(graph1);
+    g2.loadGraph(graph2);
+    g3.loadGraph(graph3);
+
+    CHECK((g1 < g2) == true);  
+    CHECK((g1 > g2) == false);
+    CHECK((g1 <= g2) == true);
+    CHECK((g1 >= g2) == false);
+    CHECK((g1 == g3) == true);  
+    CHECK((g1 != g2) == true);  
 }
 
 TEST_CASE("Test ++ operators") 
 {
-    //TODO
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g.loadGraph(graph);
+
+    ariel::Graph gCopyPost = g++;
+    vector<vector<int>> expectedGraphPost = {
+        {1, 2, 1},
+        {2, 1, 2},
+        {1, 2, 1}};
+    ariel::Graph expectedPost;
+    expectedPost.loadGraph(expectedGraphPost);
+
+    CHECK(g == expectedPost);
+    CHECK(gCopyPost != g);
+
+    vector<vector<int>> expectedGraphPre = {
+        {2, 3, 2},
+        {3, 2, 3},
+        {2, 3, 2}};
+    ariel::Graph expectedPre;
+    expectedPre.loadGraph(expectedGraphPre);
+
+    CHECK(g == expectedPre);
 }
 
 TEST_CASE("Test -- operators")
 {
-    //TODO
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {1, 2, 1},
+        {2, 1, 2},
+        {1, 2, 1}};
+    g.loadGraph(graph);
+
+    ariel::Graph gCopyPost = g--;
+    vector<vector<int>> expectedGraphPost = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    ariel::Graph expectedPost;
+    expectedPost.loadGraph(expectedGraphPost);
+
+    CHECK(g == expectedPost);
+    CHECK(gCopyPost != g);
+    --g;
+    vector<vector<int>> expectedGraphPre = {
+        {-1, 0, -1},
+        {0, -1, 0},
+        {-1, 0, -1}};
+    ariel::Graph expectedPre;
+    expectedPre.loadGraph(expectedGraphPre);
+
+    CHECK(g == expectedPre);
 }
 
+TEST_CASE("Test * operators")
+{
+    ariel::Graph g1, g2;
+    vector<vector<int>> graph1 = {
+        {1, 2},
+        {3, 4}};
+    vector<vector<int>> graph2 = {
+        {2, 0},
+        {1, 2}};
+    g1.loadGraph(graph1);
+    g2.loadGraph(graph2);
+
+    ariel::Graph resultGraph = g1 * g2;
+    vector<vector<int>> expectedGraph = {
+        {4, 4},
+        {10, 8}};
+    ariel::Graph expected;
+    expected.loadGraph(expectedGraph);
+
+    CHECK(resultGraph == expected);
+
+    int scalar = 2;
+    ariel::Graph resultScalar = g1 * scalar;
+    vector<vector<int>> expectedGraphScalar = {
+        {2, 4},
+        {6, 8}};
+    ariel::Graph expectedScalar;
+    expectedScalar.loadGraph(expectedGraphScalar);
+
+    CHECK(resultScalar == expectedScalar);
+}
+
+TEST_CASE("Test << operator")
+{
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g.loadGraph(graph);
+
+    std::ostringstream os;
+    os << g;
+    std::string output = os.str();
+    std::string expectedOutput = 
+        "Adjacency Matrix:\n"
+        "0 1 0 \n"
+        "1 0 1 \n"
+        "0 1 0 \n";
+
+    CHECK(output == expectedOutput);
+}
 TEST_CASE("Test * operators")
 {
     ariel::Graph g1, g2;
