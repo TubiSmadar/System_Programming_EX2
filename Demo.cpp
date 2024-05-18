@@ -1,6 +1,8 @@
 /*
- * Demo program for Exercise 1.
- * Author: Tuvia Smadar.
+ * Demo program for Exercise 2.
+ * 
+ * 315638577
+ * gunslokij@gmail.com
  */
 
 #include "Graph.hpp"
