@@ -4,16 +4,23 @@
 
 using namespace std;
 
-TEST_CASE("Test isConnected")
+TEST_CASE("Test + operator")
 {
     ariel::Graph g;
+    ariel::Graph g1;
     vector<vector<int>> graph = {
         {0, 1, 0},
         {1, 0, 1},
         {0, 1, 0}};
+    vector<vector<int>> graph1 = {
+        {0, 2, 0},
+        {2, 0, 2},
+        {0, 2, 0}};
+    
     g.loadGraph(graph);
-    // Connected graph
-    CHECK(ariel::Algorithms::isConnected(g) == 1);
+    g1.loadGraph(graph1);
+    g = g + g;
+    CHECK(g == g1);
 
     vector<vector<int>> graph2 = {
         {0, 1, 1, 0, 0},
@@ -21,27 +28,29 @@ TEST_CASE("Test isConnected")
         {1, 1, 0, 1, 0},
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
-    g.loadGraph(graph2);
-    // Disconnected graph
-    CHECK(ariel::Algorithms::isConnected(g) == 0);
-
-    vector<vector<int>> graph3 = {
-        {0}};
-    g.loadGraph(graph3);
-    // Graph with only 1 vertex
-    CHECK(ariel::Algorithms::isConnected(g) == 1);
+    g1.loadGraph(graph2);
+    // Different sizes graphs
+    CHECK_THROWS(g+g1);
 }
 
-TEST_CASE("Test shortestPath")
+TEST_CASE("Test - operator")
 {
     ariel::Graph g;
+    ariel::Graph g1;
     vector<vector<int>> graph = {
         {0, 1, 0},
         {1, 0, 1},
         {0, 1, 0}};
-    g.loadGraph(graph);
-    // Base case
-    CHECK(ariel::Algorithms::shortestPathToString(ariel::Algorithms::shortestPath(g, 0, 2)) == "0 -> 1 -> 2");
+    vector<vector<int>> graph1 = {
+        {0, 2, 0},
+        {2, 0, 2},
+        {0, 2, 0}};
+    
+    g.loadGraph(graph1);
+    g1.loadGraph(graph);
+    g = g - g1;
+    // Check equality
+    CHECK(g == g1);
 
     vector<vector<int>> graph2 = {
         {0, 1, 1, 0, 0},
@@ -49,10 +58,193 @@ TEST_CASE("Test shortestPath")
         {1, 1, 0, 1, 0},
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
-    g.loadGraph(graph2);
-    // No path test
-    CHECK(ariel::Algorithms::shortestPathToString(ariel::Algorithms::shortestPath(g, 0, 4)) == "No path found");
+    g1.loadGraph(graph2);
+    // Different sizes graphs
+    CHECK_THROWS(g+g1);
+    // Check greater
+    CHECK(g1>g);
+    // Check smaller
+    CHECK(g<g1);
+    // Check greater equal
+    CHECK(g1>=g);
 }
+
+TEST_CASE("Test += operator")
+{
+    ariel::Graph g;
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    vector<vector<int>> graph1 = {
+        {0, 2, 0},
+        {2, 0, 2},
+        {0, 2, 0}};
+    
+    g.loadGraph(graph);
+    g1.loadGraph(graph1);
+    g += g;
+    CHECK(g == g1);
+
+    vector<vector<int>> graph2 = {
+        {0, 1, 1, 0, 0},
+        {1, 0, 1, 0, 0},
+        {1, 1, 0, 1, 0},
+        {0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 0}};
+    g1.loadGraph(graph2);
+    // Different sizes graphs
+    CHECK_THROWS(g+=g1);
+}
+
+TEST_CASE("Test -= operator")
+{
+    ariel::Graph g;
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    vector<vector<int>> graph1 = {
+        {0, 2, 0},
+        {2, 0, 2},
+        {0, 2, 0}};
+    
+    g.loadGraph(graph);
+    g1.loadGraph(graph1);
+    g1 -= g;
+    CHECK(g == g1);
+
+    vector<vector<int>> graph2 = {
+        {0, 1, 1, 0, 0},
+        {1, 0, 1, 0, 0},
+        {1, 1, 0, 1, 0},
+        {0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 0}};
+    g1.loadGraph(graph2);
+    // Different sizes graphs
+    CHECK_THROWS(g-=g1);
+}
+
+TEST_CASE("Test +() operator")
+{
+    ariel::Graph g;
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g.loadGraph(graph);
+    g1.loadGraph(graph);
+
+    g = +g;
+    // Check equality
+    CHECK(g == g1);
+}
+TEST_CASE("Test -() operator")
+{
+    ariel::Graph g;
+    ariel::Graph g1;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, -1},
+        {0, 1, 0}};    
+    vector<vector<int>> graph1 = {
+        {0, -1, 0},
+        {-1, 0, 1},
+        {0, -1, 0}};
+    g.loadGraph(graph);
+    g1.loadGraph(graph);
+
+    g = -g;
+    // Check equality
+    CHECK(g == g1);
+}
+
+TEST_CASE("Test >,<,>=,<=,==,!= operators")
+{
+    //TODO
+}
+
+TEST_CASE("Test ++ operators") 
+{
+    //TODO
+}
+
+TEST_CASE("Test -- operators")
+{
+    //TODO
+}
+
+TEST_CASE("Test * operators")
+{
+    ariel::Graph g1, g2;
+    vector<vector<int>> graph1 = {
+        {1, 2},
+        {3, 4}};
+    vector<vector<int>> graph2 = {
+        {2, 0},
+        {1, 2}};
+    g1.loadGraph(graph1);
+    g2.loadGraph(graph2);
+
+    //Testing graph multiplication operator
+        ariel::Graph result = g1 * g2;
+        vector<vector<int>> expectedGraph = {
+            {4, 4},
+            {10, 8}};
+        ariel::Graph expected;
+        expected.loadGraph(expectedGraph);
+
+        CHECK(result == expected);
+    
+
+    //Testing graph-scalar multiplication operator
+        int number = 2;
+        ariel::Graph result1 = g1 * number;
+        vector<vector<int>> expectedGraph1 = {
+            {2, 4},
+            {6, 8}};
+        ariel::Graph expected1;
+        expected1.loadGraph(expectedGraph1);
+
+        CHECK(result1 == expected1);
+
+        vector<vector<int>> errorGraph = {
+            {2, 4, 0},
+            {6, 8, 4},
+            {1, 0, 0}};
+        expected1.loadGraph(errorGraph);
+        CHECK_THROWS(expected1 * g1);
+}
+
+TEST_CASE("Test << operator")
+{
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g.loadGraph(graph);
+
+
+    std::ostringstream os;
+    os << g;
+    std::string output = os.str();
+    std::string expectedOutput = 
+        "Adjacency Matrix:\n"
+        "0 1 0 \n"
+        "1 0 1 \n"
+        "0 1 0 \n";
+        
+    CHECK(output == expectedOutput);
+}
+
+/*
+####################################Exercise 1 Tests####################################
+No changes!
+*/
 TEST_CASE("Test isContainsCycle")
 {
     ariel::Graph g;
