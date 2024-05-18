@@ -122,7 +122,7 @@ namespace ariel {
     Graph& Graph::operator-=(const Graph& other) {
         // Check if both graphs have the same size
         if (numVertices != other.numVertices) {
-            throw std::invalid_argument("Cannot add graphs with different sizes");
+            throw std::invalid_argument("Cannot subtract graphs with different sizes");
         }
 
         // Create a new graph to store the result
@@ -248,7 +248,7 @@ namespace ariel {
             throw std::invalid_argument("Cannot operate on empty graphs");
         }
         if (numVertices != other.getNumVertices()) {
-            throw std::invalid_argument("Graphs must be of the same size for multiplication");
+            throw std::invalid_argument("Cannot multiply graphs with different sizes");
         }
         Graph result;
         vector<vector<int>> matrix(numVertices,std::vector<int>(numVertices, 0));
